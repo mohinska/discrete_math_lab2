@@ -7,7 +7,39 @@ def read_incidence_matrix(filename: str) -> list[list]:
     :param str filename: path to file
     :returns list[list]: the incidence matrix of a given graph
     """
-    pass
+    def read_incidence_matrix(filename: str) -> list[list]:
+    """
+    :param str filename: path to file
+    :returns list[list]: the incidence matrix of a given graph
+    """
+    vertices = set()
+    edges = []
+    data = []
+    with open(filename, 'r', encoding='utf-8') as file:
+        for line in file:
+            data.append(line.strip())
+    data = data[1:-1]
+
+    for line in data:
+        line = line.strip(';').split()
+        start = int(line[0])
+        end = int(line[-1])
+
+        vertices.add(start)
+        vertices.add(end)
+
+        edges.append((start, end))
+
+    incidence_matrix = [[0 for _ in range(len(edges))] for _ in range(len(vertices))]
+
+    for i, edge in enumerate(edges):
+        start, end = edge
+        if start == end:
+            incidence_matrix[start][i] = 2
+        else:
+            incidence_matrix[start][i] = 1
+            incidence_matrix[end][i] = -1
+    return incidence_matrix
 
 
 def read_adjacency_matrix(filename: str) -> list[list]:
