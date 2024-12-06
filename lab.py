@@ -7,11 +7,6 @@ def read_incidence_matrix(filename: str) -> list[list]:
     :param str filename: path to file
     :returns list[list]: the incidence matrix of a given graph
     """
-    def read_incidence_matrix(filename: str) -> list[list]:
-    """
-    :param str filename: path to file
-    :returns list[list]: the incidence matrix of a given graph
-    """
     vertices = set()
     edges = []
     data = []
