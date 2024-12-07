@@ -99,7 +99,31 @@ def iterative_adjacency_matrix_dfs(graph: list[list], start: int) ->list[int]:
     >>> iterative_adjacency_matrix_dfs([[0, 1, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [0, 0, 0, 0]], 0)
     [0, 1, 2, 3]
     """
-    pass
+    def get_adjacent_nodes(node):
+        adj_nodes = set()
+        for i, edge in enumerate(graph[node]):
+            if edge:
+                adj_nodes.add(i)
+        return adj_nodes
+
+    stack = [start]
+    visited_nodes = {start}
+    dfs = []
+
+    while stack:
+        curr_node = stack[-1]
+        if curr_node not in dfs:
+            dfs.append(curr_node)
+        adj_nodes = get_adjacent_nodes(curr_node)
+
+        for adj_node in adj_nodes:
+            if adj_node not in visited_nodes:
+                visited_nodes.add(adj_node)
+                stack.append(adj_node)
+                break
+        else:
+            stack.pop()
+    return dfs
 
 
 def recursive_adjacency_dict_dfs(graph: dict[int, list[int]], start: int) -> list[int]:
