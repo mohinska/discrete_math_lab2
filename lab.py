@@ -164,7 +164,17 @@ def recursive_adjacency_matrix_dfs(graph: list[list[int]], start: int) ->list[in
     >>> recursive_adjacency_matrix_dfs([[0, 1, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [0, 0, 0, 0]], 0)
     [0, 1, 2, 3]
     """
-    pass
+    def dfs(node: int, visited: set[int], result: list[int]) -> None:
+        visited.add(node)
+        result.append(node)
+        for adjacent_node, is_connected in enumerate(graph[node]):
+            if is_connected and adjacent_node not in visited:
+                dfs(adjacent_node, visited, result)
+
+    visited = set()
+    result = []
+    dfs(start, visited, result)
+    return result
 
 
 def iterative_adjacency_dict_bfs(graph: dict[int, list[int]], start: int) -> list[int]:
