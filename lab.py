@@ -186,7 +186,18 @@ def recursive_adjacency_dict_dfs(graph: dict[int, list[int]], start: int) -> lis
     >>> recursive_adjacency_dict_dfs({0: [1, 2], 1: [0, 2, 3], 2: [0, 1], 3: []}, 0)
     [0, 1, 2, 3]
     """
-    pass
+    def dfs(node, visited, result):
+        visited.add(node)
+        result.append(node)
+        if node in graph:
+            for neighbor in graph[node]:
+                if neighbor not in visited:
+                    dfs(neighbor, visited, result)
+
+    visited = set()
+    result = []
+    dfs(start, visited, result)
+    return result
 
 
 def recursive_adjacency_matrix_dfs(graph: list[list[int]], start: int) ->list[int]:
