@@ -112,7 +112,16 @@ def iterative_adjacency_dict_dfs(graph: dict[int, list[int]], start: int) -> lis
     >>> iterative_adjacency_dict_dfs({0: [1, 2], 1: [0, 2, 3], 2: [0, 1], 3: []}, 0)
     [0, 1, 2, 3]
     """
-    pass
+    dfs = set()
+    stack = [start]
+    dfs.add(start)
+    while stack:
+        vert = stack.pop()
+        for adj_nodes in graph[vert]:
+            if adj_nodes not in dfs:
+                dfs.add(adj_nodes)
+                stack.append(adj_nodes)
+    return list(dfs)
 
 
 def iterative_adjacency_matrix_dfs(graph: list[list], start: int) ->list[int]:
