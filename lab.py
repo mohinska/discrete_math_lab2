@@ -42,7 +42,33 @@ def read_adjacency_matrix(filename: str) -> list[list]:
     :param str filename: path to file
     :returns list[list]: the adjacency matrix of a given graph
     """
-    pass
+    vertices = set()
+    edges = []
+    data = []
+    with open(filename, 'r', encoding='utf-8') as file:
+        for line in file:
+            data.append(line.strip())
+    data = data[1:-1]
+
+    for line in data:
+        line = line.strip(';').split()
+        start = int(line[0])
+        end = int(line[-1])
+
+        vertices.add(start)
+        vertices.add(end)
+
+        edges.append((start, end))
+        
+    adjacency_matrix = [[0 for _ in range(len(vertices))] for _ in range(len(vertices))]
+
+    for i, edge in enumerate(edges):
+        node1, node2 = edge
+        if (node2,node1) in edges:
+            adjacency_matrix[node2][node1]= 1
+        elif (node1, node2) in edges:
+            adjacency_matrix[node1][node2] = 1
+    return adjacency_matrix
 
 
 def read_adjacency_dict(filename: str) -> dict[int, list[int]]:
