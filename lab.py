@@ -98,6 +98,22 @@ def iterative_adjacency_matrix_dfs(graph: list[list], start: int) ->list[int]:
     [0, 1, 2]
     >>> iterative_adjacency_matrix_dfs([[0, 1, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [0, 0, 0, 0]], 0)
     [0, 1, 2, 3]
+    >>> iterative_adjacency_matrix_dfs([[0, 1, 1], [1, 0, 1], [1, 1, 0]], 0)
+    [0, 1, 2]
+    >>> iterative_adjacency_matrix_dfs([[0, 1, 0], [1, 0, 1], [0, 1, 0]], 0)
+    [0, 1, 2]
+    >>> iterative_adjacency_matrix_dfs([[0, 1], [1, 0]], 0)
+    [0, 1]
+    >>> iterative_adjacency_matrix_dfs([[0, 1, 0], [1, 0, 0], [0, 0, 0]], 0)
+    [0, 1]
+    >>> iterative_adjacency_matrix_dfs([[0]], 0)
+    [0]
+    >>> iterative_adjacency_matrix_dfs([[0, 1], [1, 0]], 1)
+    [1, 0]
+    >>> iterative_adjacency_matrix_dfs([[0, 0, 1], [0, 0, 0], [1, 1, 0]], 0)
+    [0, 2, 1]
+    >>> iterative_adjacency_matrix_dfs([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], 0)
+    [0]
     """
     def get_adjacent_nodes(node):
         adj_nodes = set()
@@ -108,23 +124,22 @@ def iterative_adjacency_matrix_dfs(graph: list[list], start: int) ->list[int]:
 
     stack = [start]
     visited_nodes = {start}
-    dfs = []
+    dfs = [start]
 
     while stack:
         curr_node = stack[-1]
-        if curr_node not in dfs:
+        if curr_node not in visited_nodes:
+            visited_nodes.add(curr_node)
             dfs.append(curr_node)
         adj_nodes = get_adjacent_nodes(curr_node)
+        unvisited_adj_nodes = [node for node in adj_nodes if node not in visited_nodes]
 
-        for adj_node in adj_nodes:
-            if adj_node not in visited_nodes:
-                visited_nodes.add(adj_node)
-                stack.append(adj_node)
-                break
+        if unvisited_adj_nodes:
+            stack.append(unvisited_adj_nodes[0])
         else:
             stack.pop()
-    return dfs
 
+    return dfs
 
 def recursive_adjacency_dict_dfs(graph: dict[int, list[int]], start: int) -> list[int]:
     """
