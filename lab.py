@@ -317,7 +317,27 @@ def adjacency_dict_radius(graph: dict[int: list[int]]) -> int:
     >>> adjacency_dict_radius({0: [1, 2], 1: [0, 2], 2: [0, 1], 3: [1]})
     2
     """
-    pass
+    def bfs(start: int) -> int:
+        """Perform BFS and return the eccentricity from the start node."""
+        visited = {start: 0}
+        queue = [start]
+        max_distance = 0
+
+        while queue:
+            current = queue.pop(0)
+            for neighbor in graph[current]:
+                if neighbor not in visited:
+                    visited[neighbor] = visited[current] + 1
+                    queue.append(neighbor)
+                    max_distance = max(max_distance, visited[neighbor])
+
+        if len(visited) != len(graph):
+            return float('inf')
+
+        return max_distance
+
+    eccentricities = [bfs(node) for node in graph]
+    return min(eccentricities)
 
 
 if __name__ == "__main__":
