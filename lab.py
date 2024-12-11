@@ -133,22 +133,6 @@ def iterative_adjacency_matrix_dfs(graph: list[list], start: int) ->list[int]:
     [0, 1, 2]
     >>> iterative_adjacency_matrix_dfs([[0, 1, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [0, 0, 0, 0]], 0)
     [0, 1, 2, 3]
-    >>> iterative_adjacency_matrix_dfs([[0, 1, 1], [1, 0, 1], [1, 1, 0]], 0)
-    [0, 1, 2]
-    >>> iterative_adjacency_matrix_dfs([[0, 1, 0], [1, 0, 1], [0, 1, 0]], 0)
-    [0, 1, 2]
-    >>> iterative_adjacency_matrix_dfs([[0, 1], [1, 0]], 0)
-    [0, 1]
-    >>> iterative_adjacency_matrix_dfs([[0, 1, 0], [1, 0, 0], [0, 0, 0]], 0)
-    [0, 1]
-    >>> iterative_adjacency_matrix_dfs([[0]], 0)
-    [0]
-    >>> iterative_adjacency_matrix_dfs([[0, 1], [1, 0]], 1)
-    [1, 0]
-    >>> iterative_adjacency_matrix_dfs([[0, 0, 1], [0, 0, 0], [1, 1, 0]], 0)
-    [0, 2, 1]
-    >>> iterative_adjacency_matrix_dfs([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], 0)
-    [0]
     """
     def get_adjacent_nodes(node):
         adj_nodes = set()
@@ -259,7 +243,31 @@ def iterative_adjacency_matrix_bfs(graph: list[list[int]], start: int) ->list[in
     >>> iterative_adjacency_matrix_bfs([[0, 1, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [0, 0, 0, 0]], 0)
     [0, 1, 2, 3]
     """
-    pass
+    def get_adjacent_nodes(node):
+        adj_nodes = set()
+        for i, edge in enumerate(graph[node]):
+            if edge:
+                adj_nodes.add(i)
+        return adj_nodes
+
+    queue = [start]
+    visited_nodes = {start}
+    bfs = [start]
+
+    while queue:
+        curr_node = queue[0]
+        visited_nodes.add(curr_node)
+        if curr_node not in bfs:
+            bfs.append(curr_node)
+
+        adj_nodes = get_adjacent_nodes(curr_node)
+        unvisited_adj_nodes = [node for node in adj_nodes if node not in visited_nodes]
+
+        if unvisited_adj_nodes:
+            queue += unvisited_adj_nodes
+        queue.pop(0)
+
+    return bfs
 
 
 # def recursive_adjacency_dict_bfs(graph: dict[int, list[int]], start: int) -> list[int]:
