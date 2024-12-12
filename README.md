@@ -81,23 +81,23 @@ Breadth-First Search (BFS) on these graphs. It also includes functions to calcul
 the radius of a graph.
 
 #### Functions:
-- read_incidence_matrix: Reads an incidence matrix from a file.
-- read_adjacency_matrix: Reads an adjacency matrix from a file.
-- read_adjacency_dict: Reads an adjacency list from a file.
+- `read_incidence_matrix`: Reads an incidence matrix from a file.
+- `read_adjacency_matrix`: Reads an adjacency matrix from a file.
+- `read_adjacency_dict`: Reads an adjacency list from a file.
 
 #### Depth-First Search (DFS) Functions:
-- iterative_adjacency_dict_dfs: Performs iterative DFS on an adjacency list.
-- iterative_adjacency_matrix_dfs: Performs iterative DFS on an adjacency matrix.
-- recursive_adjacency_dict_dfs: Performs recursive DFS on an adjacency list.
-- recursive_adjacency_matrix_dfs: Performs recursive DFS on an adjacency matrix.
+- `iterative_adjacency_dict_dfs`: Performs iterative DFS on an adjacency list.
+- `iterative_adjacency_matrix_dfs`: Performs iterative DFS on an adjacency matrix.
+- `recursive_adjacency_dict_dfs`: Performs recursive DFS on an adjacency list.
+- `recursive_adjacency_matrix_dfs`: Performs recursive DFS on an adjacency matrix.
 
 #### Breadth-First Search (BFS) Functions:
-- iterative_adjacency_dict_bfs: Performs iterative BFS on an adjacency list.
-- iterative_adjacency_matrix_bfs: Performs iterative BFS on an adjacency matrix.
+- `iterative_adjacency_dict_bfs`: Performs iterative BFS on an adjacency list.
+- `iterative_adjacency_matrix_bfs`: Performs iterative BFS on an adjacency matrix.
 
 #### Graph Radius Calculation:
-- adjacency_matrix_radius: Calculates the radius of a graph from an adjacency matrix.
-- adjacency_dict_radius: Calculates the radius of a graph from an adjacency list.
+- `adjacency_matrix_radius`: Calculates the radius of a graph from an adjacency matrix.
+- `adjacency_dict_radius`: Calculates the radius of a graph from an adjacency list.
 ---
 
 ## Getting Started
