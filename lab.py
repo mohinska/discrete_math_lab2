@@ -26,6 +26,7 @@ Graph Radius Calculation:
 - adjacency_dict_radius: Calculates the radius of a graph from an adjacency list.
 """
 
+
 def read_incidence_matrix(filename: str) -> list[list]:
     """
     :param str filename: path to file
@@ -34,6 +35,7 @@ def read_incidence_matrix(filename: str) -> list[list]:
     vertices = set()
     edges = []
     data = []
+
     with open(filename, 'r', encoding='utf-8') as file:
         for line in file:
             data.append(line.strip())
@@ -49,15 +51,22 @@ def read_incidence_matrix(filename: str) -> list[list]:
 
         edges.append((start, end))
 
-    incidence_matrix = [[0 for _ in range(len(edges))] for _ in range(len(vertices))]
+    sorted_vertices = sorted(vertices)
+    vertex_index = {v: i for i, v in enumerate(sorted_vertices)}
 
-    for i, edge in enumerate(edges):
-        start, end = edge
+    incidence_matrix = [[0 for _ in range(len(edges))]
+                        for _ in range(len(vertices))]
+
+    for i, (start, end) in enumerate(edges):
+        start_idx = vertex_index[start]
+        end_idx = vertex_index[end]
+
         if start == end:
-            incidence_matrix[start][i] = 2
+            incidence_matrix[start_idx][i] = 2
         else:
-            incidence_matrix[start][i] = 1
-            incidence_matrix[end][i] = -1
+            incidence_matrix[start_idx][i] = 1
+            incidence_matrix[end_idx][i] = -1
+
     return incidence_matrix
 
 
@@ -69,6 +78,7 @@ def read_adjacency_matrix(filename: str) -> list[list]:
     vertices = set()
     edges = []
     data = []
+
     with open(filename, 'r', encoding='utf-8') as file:
         for line in file:
             data.append(line.strip())
@@ -83,15 +93,19 @@ def read_adjacency_matrix(filename: str) -> list[list]:
         vertices.add(end)
 
         edges.append((start, end))
-        
-    adjacency_matrix = [[0 for _ in range(len(vertices))] for _ in range(len(vertices))]
 
-    for i, edge in enumerate(edges):
-        node1, node2 = edge
-        if (node2,node1) in edges:
-            adjacency_matrix[node2][node1]= 1
-        elif (node1, node2) in edges:
-            adjacency_matrix[node1][node2] = 1
+    sorted_vertices = sorted(vertices)
+    vertex_index = {v: i for i, v in enumerate(sorted_vertices)}
+
+    adjacency_matrix = [
+        [0 for _ in range(len(vertices))] for _ in range(len(vertices))]
+
+    for start, end in edges:
+        start_idx = vertex_index[start]
+        end_idx = vertex_index[end]
+
+        adjacency_matrix[start_idx][end_idx] = 1
+
     return adjacency_matrix
 
 
