@@ -344,7 +344,25 @@ def adjacency_matrix_radius(graph: list[list]) -> int:
     >>> adjacency_matrix_radius([[0, 1, 1], [1, 0, 1], [1, 1, 0], [0, 1, 0]])
     2
     """
-    pass
+    def bfs(start, graph):
+        queue = [start]
+        visited_nodes = {start: 0}
+        max_distance = 0
+
+        while queue:
+            curr_node = queue.pop(0)
+            curr_distance = visited_nodes[curr_node]
+            for neighbor, is_connected in enumerate(graph[curr_node]):
+                if is_connected and neighbor not in visited_nodes:
+                    visited_nodes[neighbor] = curr_distance + 1
+                    max_distance = max(max_distance, curr_distance + 1)
+                    queue.append(neighbor)
+        if len(visited_nodes) != len(graph):
+            return float('inf')
+        return max_distance
+
+    eccentricities = [bfs(node, graph) for node in range(len(graph))]
+    return min(eccentricities)
 
 
 def adjacency_dict_radius(graph: dict[int: list[int]]) -> int:
