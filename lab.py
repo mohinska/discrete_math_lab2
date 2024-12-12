@@ -142,7 +142,7 @@ def read_adjacency_dict(filename: str) -> dict[int, list[int]]:
 
 def iterative_adjacency_dict_dfs(graph: dict[int, list[int]], start: int) -> list[int]:
     """
-    :param list[list] graph: the adjacency list of a given graph
+    :param dict graph: the adjacency list of a given graph
     :param int start: start vertex of search
     :returns list[int]: the dfs traversal of the graph
     >>> iterative_adjacency_dict_dfs({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 0)
@@ -155,14 +155,16 @@ def iterative_adjacency_dict_dfs(graph: dict[int, list[int]], start: int) -> lis
     dfs.add(start)
     while stack:
         vert = stack.pop()
-        for adj_nodes in graph[vert]:
-            if adj_nodes not in dfs:
-                dfs.add(adj_nodes)
-                stack.append(adj_nodes)
+        # Check if vertex exists in the graph
+        if vert in graph:
+            for adj_node in graph[vert]:
+                if adj_node not in dfs:
+                    dfs.add(adj_node)
+                    stack.append(adj_node)
     return list(dfs)
 
 
-def iterative_adjacency_matrix_dfs(graph: list[list], start: int) ->list[int]:
+def iterative_adjacency_matrix_dfs(graph: list[list], start: int) -> list[int]:
     """
     :param dict graph: the adjacency matrix of a given graph
     :param int start: start vertex of search
@@ -189,7 +191,8 @@ def iterative_adjacency_matrix_dfs(graph: list[list], start: int) ->list[int]:
             visited_nodes.add(curr_node)
             dfs.append(curr_node)
         adj_nodes = get_adjacent_nodes(curr_node)
-        unvisited_adj_nodes = [node for node in adj_nodes if node not in visited_nodes]
+        unvisited_adj_nodes = [
+            node for node in adj_nodes if node not in visited_nodes]
 
         if unvisited_adj_nodes:
             stack.append(unvisited_adj_nodes[0])
@@ -210,6 +213,8 @@ def recursive_adjacency_dict_dfs(graph: dict[int, list[int]], start: int) -> lis
     [0, 1, 2, 3]
     """
     def dfs(node, visited, result):
+        if node in visited:
+            return
         visited.add(node)
         result.append(node)
         if node in graph:
@@ -223,9 +228,9 @@ def recursive_adjacency_dict_dfs(graph: dict[int, list[int]], start: int) -> lis
     return result
 
 
-def recursive_adjacency_matrix_dfs(graph: list[list[int]], start: int) ->list[int]:
+def recursive_adjacency_matrix_dfs(graph: list[list[int]], start: int) -> list[int]:
     """
-    :param dict graph: the adjacency matrix of a given graph
+    :param list graph: the adjacency matrix of a given graph
     :param int start: start vertex of search
     :returns list[int]: the dfs traversal of the graph
     >>> recursive_adjacency_matrix_dfs([[0, 1, 1], [1, 0, 1], [1, 1, 0]], 0)
@@ -272,9 +277,9 @@ def iterative_adjacency_dict_bfs(graph: dict[int, list[int]], start: int) -> lis
     return bfs
 
 
-def iterative_adjacency_matrix_bfs(graph: list[list[int]], start: int) ->list[int]:
+def iterative_adjacency_matrix_bfs(graph: list[list[int]], start: int) -> list[int]:
     """
-    :param dict graph: the adjacency matrix of a given graph
+    :param list[list] graph: the adjacency matrix of a given graph
     :param int start: start vertex of search
     :returns list[int]: the bfs traversal of the graph
     >>> iterative_adjacency_matrix_bfs([[0, 1, 1], [1, 0, 1], [1, 1, 0]], 0)
@@ -282,57 +287,20 @@ def iterative_adjacency_matrix_bfs(graph: list[list[int]], start: int) ->list[in
     >>> iterative_adjacency_matrix_bfs([[0, 1, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [0, 0, 0, 0]], 0)
     [0, 1, 2, 3]
     """
-    def get_adjacent_nodes(node):
-        adj_nodes = set()
-        for i, edge in enumerate(graph[node]):
-            if edge:
-                adj_nodes.add(i)
-        return adj_nodes
-
+    visited = set()
     queue = [start]
-    visited_nodes = {start}
-    bfs = [start]
+    bfs_result = []
 
     while queue:
-        curr_node = queue[0]
-        visited_nodes.add(curr_node)
-        if curr_node not in bfs:
-            bfs.append(curr_node)
+        node = queue.pop(0)
+        if node not in visited:
+            visited.add(node)
+            bfs_result.append(node)
+            for neighbor in range(len(graph[node])):
+                if graph[node][neighbor] and neighbor not in visited:
+                    queue.append(neighbor)
 
-        adj_nodes = get_adjacent_nodes(curr_node)
-        unvisited_adj_nodes = [node for node in adj_nodes if node not in visited_nodes]
-
-        if unvisited_adj_nodes:
-            queue += unvisited_adj_nodes
-        queue.pop(0)
-
-    return bfs
-
-
-# def recursive_adjacency_dict_bfs(graph: dict[int, list[int]], start: int) -> list[int]:
-#     """
-#     :param list[list] graph: the adjacency list of a given graph
-#     :param int start: start vertex of search
-#     :returns list[int]: the bfs traversal of the graph
-#     >>> recursive_adjacency_dict_bfs({0: [1, 2], 1: [0, 2], 2: [0, 1]}, 0)
-#     [0, 1, 2]
-#     >>> recursive_adjacency_dict_bfs({0: [1, 2], 1: [0, 2, 3], 2: [0, 1], 3: []}, 0)
-#     [0, 1, 2, 3]
-#     """
-#     pass
-
-
-# def recursive_adjacency_matrix_bfs(graph: list[list[int]], start: int) ->list[int]:
-#     """
-#     :param dict graph: the adjacency matrix of a given graph
-#     :param int start: start vertex of search
-#     :returns list[int]: the bfs traversal of the graph
-#     >>> recursive_adjacency_matrix_bfs([[0, 1, 1], [1, 0, 1], [1, 1, 0]], 0)
-#     [0, 1, 2]
-#     >>> recursive_adjacency_matrix_bfs([[0, 1, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [0, 0, 0, 0]], 0)
-#     [0, 1, 2, 3]
-#     """
-#     pass
+    return bfs_result
 
 
 def adjacency_matrix_radius(graph: list[list]) -> int:
@@ -399,4 +367,4 @@ def adjacency_dict_radius(graph: dict[int: list[int]]) -> int:
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod()
+    print(doctest.testmod())
